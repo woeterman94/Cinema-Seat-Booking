@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 const colors = ["blue", "purple", "yellow", "green", "red", "indigo", "pink"];
 
@@ -211,16 +211,22 @@ const CinemaSeatBooking = ({
     return parsed.length > 0 ? parsed : initialSeatTypes;
   }, [initialSeatTypes, seatTypeConfigs]);
 
-  const getSeatType = (row) => {
-    const match = parsedSeatTypes.find((config) => config.rows.includes(row));
-    return match || parsedSeatTypes[0];
-  };
+  const getSeatType = useCallback(
+    (row) => {
+      const match = parsedSeatTypes.find((config) => config.rows.includes(row));
+      return match || parsedSeatTypes[0];
+    },
+    [parsedSeatTypes]
+  );
 
-  const getSeatPrice = (seatId) => {
-    const meta = getSeatMeta(seatId);
-    if (!meta) return 0;
-    return getSeatType(meta.row)?.price || 0;
-  };
+  const getSeatPrice = useCallback(
+    (seatId) => {
+      const meta = getSeatMeta(seatId);
+      if (!meta) return 0;
+      return getSeatType(meta.row)?.price || 0;
+    },
+    [getSeatType]
+  );
 
   useEffect(() => {
     setBookings((currentBookings) =>
@@ -232,7 +238,7 @@ const CinemaSeatBooking = ({
         ),
       }))
     );
-  }, [parsedSeatTypes, seatLayout]);
+  }, [getSeatPrice, seatLayout]);
 
   const bookedSeatIds = useMemo(
     () => bookings.flatMap((booking) => booking.seatIds),
@@ -248,7 +254,7 @@ const CinemaSeatBooking = ({
         const seatType = meta ? getSeatType(meta.row) : parsedSeatTypes[0];
         return { seatId, seatType };
       }),
-    [parsedSeatTypes, selectedSeatIds]
+    [getSeatType, parsedSeatTypes, selectedSeatIds]
   );
 
   const currentGuestRule =
@@ -291,7 +297,7 @@ const CinemaSeatBooking = ({
     }
 
     return grid;
-  }, [bookedSeatIdSet, parsedSeatTypes, seatLayout, selectedSeatIds]);
+  }, [bookedSeatIdSet, getSeatType, seatLayout, selectedSeatIds]);
 
   const shareUrl = useMemo(() => {
     if (typeof window === "undefined") return `?event=${sessionSlug}`;
