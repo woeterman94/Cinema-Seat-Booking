@@ -68,6 +68,7 @@ It’s ideal for use in **cinema halls, theater reservations, or event booking p
 ## 🔋 Features
 
 - 🎟️ **Dynamic Seat Map** – Rows, seats per row, and aisle separation
+- 🪄 **Three-Step Wizard** – Guests enter their full name, pick seats, and confirm
 - 🎨 **Seat Categories** – Regular, Premium, VIP (customizable)
 - 💸 **Booking Summary** – Selected seats, seat count, and total price
 - 🚫 **Booked Seat Handling** – Disable unavailable seats
@@ -75,6 +76,7 @@ It’s ideal for use in **cinema halls, theater reservations, or event booking p
 - 📱 **Responsive Design** – Works across devices
 - 🟢 **Inline Notifications** – Shows success/error messages instead of alerts
 - ✅ **Post-Booking Status** – Button shows booked seat IDs after completion
+- 🛠️ **Admin Panel** – Update the movie, manage bookings, guest credits, and theatre layout
 
 ---
 
@@ -151,6 +153,33 @@ bookedSeats={["C2", "C4"]}
 ```jsx
 onBookingComplete={(booking) => console.log(booking)}
 ```
+
+---
+
+## ☁️ Free backend options
+
+If you want to turn this demo into a real booking app, these free tiers are a good fit:
+
+- **Supabase** – PostgreSQL, auth, realtime updates, and row-level security in one service
+- **Firebase** – fast setup with auth, Firestore, and hosting
+- **Appwrite Cloud** – open-source style backend with auth, database, and functions
+- **PocketBase** – lightweight backend if you want to self-host cheaply later
+
+Recommended starter stack for this project: **Supabase + Vercel/Netlify**.
+
+---
+
+## 🆕 Demo features in this version
+
+- Guest bookings now use a **wizard flow**:
+  1. Enter full name
+  2. Select seats
+  3. Confirm booking
+- The admin panel lets you:
+  - update the movie name and share URL slug
+  - edit theatre rows, seats per row, aisle position, and seat-category ranges
+  - manage guest seat credits and allowed categories
+  - edit or clear bookings
 
 ---
 
